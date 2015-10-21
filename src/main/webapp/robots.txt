@@ -1,0 +1,3 @@
+# 拦截所有的机器人
+User-agent: *
+Disallow: /

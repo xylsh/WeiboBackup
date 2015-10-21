@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.xylsh.dao.MonitorDao">
+
+    <sql id="allMonitorColumns">
+        id,
+        weibo_uid as weiboUid,
+        weibo_nickname as weiboNickname,
+        weibo_url as weiboUrl,
+        weibo_interface_url as weiboInterfaceUrl,
+        last_weibo_time as lastWeiboTime,
+        is_stop as isStop
+    </sql>
+
+    <select id="getAllMonitor" resultType="io.github.xylsh.model.MonitorDomain">
+        select
+        <include refid="allMonitorColumns"/>
+        from monitor
+        order by id
+    </select>
+
+    <update id="updateNewestWeiboDate" parameterType="map">
+        update monitor
+        <set>
+            <if test="newestWeiboDate != null">last_weibo_time = #{newestWeiboDate}</if>
+        </set>
+        where id = #{id}
+    </update>
+
+    <insert id="insert" parameterType="io.github.xylsh.model.MonitorDomain"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into monitor(weibo_nickname, weibo_uid, weibo_url, is_stop, weibo_interface_url)
+        values (#{weiboNickname}, #{weiboUid}, #{weiboUrl}, #{isStop}, #{weiboInterfaceUrl})
+    </insert>
+
+    <update id="stopMonitor" parameterType="long">
+        update monitor
+        set is_stop = 1
+        where id = #{id}
+    </update>
+
+    <update id="startMonitor" parameterType="long">
+        update monitor
+        set is_stop = 0
+        where id = #{id}
+    </update>
+
+</mapper>

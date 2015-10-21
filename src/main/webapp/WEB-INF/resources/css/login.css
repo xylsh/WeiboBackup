@@ -1,0 +1,19 @@
+body {
+    padding-top: 90px;
+    padding-bottom: 40px;
+    background: #444
+}
+
+.panel {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+.panel-body {
+    padding: 0 30px 30px 30px;
+}
+
+.tip {
+    float: right;
+    color: red;
+}

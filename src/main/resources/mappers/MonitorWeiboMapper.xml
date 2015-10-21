@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.xylsh.dao.MonitorWeiboDao">
+
+    <insert id="save" parameterType="io.github.xylsh.model.MonitorWeiboDomain"
+            useGeneratedKeys="true" keyProperty="id">
+        insert into monitor_weibo(monitor_id, weibo_id)
+        values (#{monitorId}, #{weiboId})
+    </insert>
+
+    <select id="getWeiboIds" parameterType="long" resultType="long">
+        select weibo_id
+        from monitor_weibo
+        where monitor_id = #{monitorId}
+    </select>
+</mapper>

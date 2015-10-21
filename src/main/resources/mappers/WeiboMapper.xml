@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.github.xylsh.dao.WeiboDao">
+
+    <insert id="save" keyProperty="id" useGeneratedKeys="true"
+            parameterType="io.github.xylsh.model.WeiboDomain">
+        insert into weibo (weibo_nickname, weibo_text, weibo_time, weibo_pics, retweet_weibo_id)
+        values (#{weiboNickname}, #{weiboText}, #{weiboTime}, #{weiboPics}, #{retweetWeiboId})
+    </insert>
+
+    <!--<select id="getWeiboByWeiboIds" parameterType="list" resultMap="WeiboVoResultMap">-->
+        <!--select-->
+        <!--a.id main_id, a.weibo_nickname main_nickname, a.weibo_text main_text,-->
+        <!--a.weibo_time main_time, a.weibo_pics mian_pics, a.retweet_weibo_id main_retweet_weibo_id,-->
+        <!--b.id retweet_id, b.weibo_nickname retweet_nickname, b.weibo_text retweet_text,-->
+        <!--b.weibo_time retweet_time, b.weibo_pics retweet_pics, b.retweet_weibo_id retweet_retweet_weibo_id-->
+        <!--from weibo_backup.weibo a left join weibo_backup.weibo b on a.retweet_weibo_id = b.id-->
+        <!--where a.id in-->
+        <!--<foreach collection="weiboIdList" item="id" open="(" close=")" separator=",">-->
+            <!--#{id}-->
+        <!--</foreach>-->
+    <!--</select>-->
+
+    <select id="getWeiboByWeiboIds" parameterType="list" resultType="map">
+        select
+        a.id main_id, a.weibo_nickname main_nickname, a.weibo_text main_text,
+        a.weibo_time main_time, a.weibo_pics mian_pics, a.retweet_weibo_id main_retweet_weibo_id,
+        b.id retweet_id, b.weibo_nickname retweet_nickname, b.weibo_text retweet_text,
+        b.weibo_time retweet_time, b.weibo_pics retweet_pics, b.retweet_weibo_id retweet_retweet_weibo_id
+        from weibo_backup.weibo a left join weibo_backup.weibo b on a.retweet_weibo_id = b.id
+        <if test="weiboIdList != null and weiboIdList.size > 0">
+            where a.id in
+            <foreach collection="weiboIdList" item="id" open="(" close=")" separator=",">
+                #{id}
+            </foreach>
+        </if>
+        order by a.weibo_time desc
+    </select>
+
+    <!--<resultMap id="WeiboVoResultMap" type="io.github.xylsh.model.ext.WeiboVo">-->
+        <!--<association property="mainWeibo" javaType="io.github.xylsh.model.WeiboDomain">-->
+            <!--<id property="id" column="main_id"/>-->
+            <!--<result property="weiboNickname" column="main_nickname"/>-->
+            <!--<result property="weiboText" column="main_text"/>-->
+            <!--<result property="weiboTime" column="main_time"/>-->
+            <!--<result property="weiboPics" column="mian_pics"/>-->
+            <!--<result property="retweetWeiboId" column="main_retweet_weibo_id"/>-->
+        <!--</association>-->
+        <!--<association property="retweetWeibo" javaType="io.github.xylsh.model.WeiboDomain">-->
+            <!--<id property="id" column="retweet_id"/>-->
+            <!--<result property="weiboNickname" column="retweet_nickname"/>-->
+            <!--<result property="weiboText" column="retweet_text"/>-->
+            <!--<result property="weiboTime" column="retweet_time"/>-->
+            <!--<result property="weiboPics" column="retweet_pics"/>-->
+            <!--<result property="retweetWeiboId" column="retweet_retweet_weibo_id"/>-->
+        <!--</association>-->
+    <!--</resultMap>-->
+
+</mapper>

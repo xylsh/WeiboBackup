@@ -1,0 +1,8 @@
+<component name="ArtifactManager">
+  <artifact type="war" name="WeiboBackup:Web">
+    <output-path>$PROJECT_DIR$/out/artifacts/WeiboBackup_Web</output-path>
+    <root id="archive" name="WeiboBackup_Web.war">
+      <element id="artifact" artifact-name="WeiboBackup:Web exploded" />
+    </root>
+  </artifact>
+</component>
